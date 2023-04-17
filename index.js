@@ -7,9 +7,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const speakeasy = require('speakeasy');
-const AWS = require('aws-sdk');
-const creds = new AWS.SharedIniFileCredentials({ profile: 'default' });
-const SNS = new AWS.SNS({ creds, region: 'ap-south-1' });
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -29,8 +26,6 @@ const secretKey = process.env.SECRET_KEY;
 const mongoURL = process.env.MONGO_URL;
 const otpLoginEmail = process.env.OTP_LOGIN_EMAIL ;
 const otpLoginpPassword = process.env.OTP_LOGIN_EMAIL;
-
-console.log(secretKey)
 
 mongoose.connect(mongoURL)
     .then(() => console.log('MongoDB Connected'))
@@ -116,22 +111,6 @@ app.post('/api/sendOtp', async (req, res) => {
         subject: 'Account Creation',
         text: "You have recently created an account with us.\nYour Verification OTP is " + otp + "\nIf you haven't made an account please contact site administrator."
     };
-
-    const mobileOptions = {
-        Message: "Your OTP is " + otp + ", please verify OTP in 2 minutes",
-        PhoneNumber: req.body.phone,
-        MessageAttributes: {
-            'AWS.SNS.SMS.SMSType': {
-                DataType: 'String',
-                StringValue: 'Transactional'
-            }
-        }
-    };
-    await SNS.publish(mobileOptions, (err, data) => {
-        if (err) {
-            return res.json({ error: "Invalid Number." });
-        }
-    })
 
     transporter.sendMail(mailOptions, async (error, info) => {
         if (error) {

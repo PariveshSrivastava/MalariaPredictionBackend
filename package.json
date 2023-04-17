@@ -14,7 +14,6 @@
     "are-we-there-yet": "^2.0.0",
     "array-flatten": "^1.1.1",
     "available-typed-arrays": "^1.0.5",
-    "aws-sdk": "^2.1349.0",
     "balanced-match": "^1.0.2",
     "base32.js": "^0.0.1",
     "base64-js": "^1.5.1",
