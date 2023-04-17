@@ -1,5 +1,5 @@
 // Express server
-
+const dotenv = require('dotenv');
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -22,14 +22,17 @@ const app = express()
 app.use(cors());
 app.use(express.json())
 
+dotenv.config('./.env');
+
 const port = process.env.PORT ;
 const secretKey = process.env.SECRET_KEY;
 const mongoURL = process.env.MONGO_URL;
 const otpLoginEmail = process.env.OTP_LOGIN_EMAIL ;
 const otpLoginpPassword = process.env.OTP_LOGIN_EMAIL;
 
+console.log(secretKey)
 
-mongoose.connect()
+mongoose.connect(mongoURL)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
