@@ -117,22 +117,6 @@ app.post('/api/sendOtp', async (req, res) => {
         text: "You have recently created an account with us.\nYour Verification OTP is " + otp + "\nIf you haven't made an account please contact site administrator."
     };
 
-    const mobileOptions = {
-        Message: "Your OTP is " + otp + ", please verify OTP in 2 minutes",
-        PhoneNumber: req.body.phone,
-        MessageAttributes: {
-            'AWS.SNS.SMS.SMSType': {
-                DataType: 'String',
-                StringValue: 'Transactional'
-            }
-        }
-    };
-    await SNS.publish(mobileOptions, (err, data) => {
-        if (err) {
-            return res.json({ error: "Invalid Number." });
-        }
-    })
-
     transporter.sendMail(mailOptions, async (error, info) => {
         if (error) {
             console.log(error);
