@@ -28,7 +28,7 @@ const port = process.env.PORT ;
 const secretKey = process.env.SECRET_KEY;
 const mongoURL = process.env.MONGO_URL;
 const otpLoginEmail = process.env.OTP_LOGIN_EMAIL ;
-const otpLoginpPassword = process.env.OTP_LOGIN_EMAIL;
+const otpLoginpPassword = process.env.OTP_LOGIN_PASSWORD;
 
 console.log(secretKey)
 
