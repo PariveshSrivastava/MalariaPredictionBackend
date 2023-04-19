@@ -48,7 +48,7 @@ app.post('/api/register', async (req, res) => {
     console.log(req.body)
 
     try {
-        const hashedPassword = await bcrypt.hash(otp, 10)
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await User.create({
             name: req.body.name,
             email: req.body.email,
