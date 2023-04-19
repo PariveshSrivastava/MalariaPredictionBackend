@@ -141,7 +141,15 @@ app.post('/api/sendOtp', async (req, res) => {
 })
 
 app.post('/api/verify', async (req, res) => {
-    res.json({ status: 'true' });
+
+    let {email,otp} = req.body;
+    const OTP =await Otp.findOne({'email':email,});
+    if(OTP.otp === otp){
+        res.status(201).json({ status: "true" });
+    }else{
+        res.status(201).json({status:"false"});
+    }
+
 })
 
 //express code for image upload
@@ -166,6 +174,14 @@ app.post('/api/uploadImage', (req, res) => {
             });
     }
 )
+
+app.post('/api/fetchImage',async(req,res)=>{
+    const images = await Image.find({});
+    res.status(200).json({
+        images:images
+    })
+
+})
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
