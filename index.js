@@ -25,7 +25,7 @@ const port = process.env.PORT ;
 const secretKey = process.env.SECRET_KEY;
 const mongoURL = process.env.MONGO_URL;
 const otpLoginEmail = process.env.OTP_LOGIN_EMAIL ;
-const otpLoginpPassword = process.env.OTP_LOGIN_EMAIL;
+const otpLoginpPassword = process.env.OTP_LOGIN_PASSWORD;
 
 mongoose.connect(mongoURL)
     .then(() => console.log('MongoDB Connected'))
@@ -43,7 +43,7 @@ app.post('/api/register', async (req, res) => {
     console.log(req.body)
 
     try {
-        const hashedPassword = await bcrypt.hash(otp, 10)
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
         await User.create({
             name: req.body.name,
             email: req.body.email,
