@@ -182,17 +182,20 @@ app.post('/api/uploadImage', (req, res) => {
 }
 )
 
-app.post('/api/fetchImage', async (req, res) => {
-    try {
-        const images = await Image.find({ username: req.body.username });
-        console.log(images);
-        if (!images) {
-            return res.status(404).json({ error: "No images found" });
-        }
-        res.status(200).json({ images });
-    } catch (err) {
-        console.log(errorMonitor);
-        res.status(500).json({ error: "Server Error" });
-    }
-})
+// app.post('/api/fetchImage', async (req, res) => {
+//     try {
+//         const images = await Image.find({ username: req.body.username });
+//         console.log(images);
+//         if (!images) {
+//             return res.status(404).json({ error: "No images found" });
+//         }
+//         res.status(200).json({ images });
+//     } catch (err) {
+//         console.log(errorMonitor);
+//         res.status(500).json({ error: "Server Error" });
+//     }
+// })
 
+app.listen(port, () => {
+    console.log(`app listening at:${port}`)
+})
