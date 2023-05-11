@@ -177,6 +177,7 @@ app.post('/api/uploadImage', (req, res) => {
 
 app.post('/api/fetchImage',async(req,res)=>{
     const images = await Image.find({});
+    console.log(images);
     res.status(200).json({
         images:images
     })
