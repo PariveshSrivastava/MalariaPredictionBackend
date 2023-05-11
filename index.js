@@ -178,12 +178,8 @@ app.post('/api/uploadImage', (req, res) => {
 app.post('/api/fetchImage',async(req,res)=>{
     const images = await Image.find({});
     console.log(images);
-    res.status(200).json({
+    res.json({
         images:images
     })
-
 })
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-})
