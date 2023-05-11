@@ -21,10 +21,10 @@ app.use(express.json())
 
 dotenv.config('./.env');
 
-const port = process.env.PORT ;
+const port = process.env.PORT;
 const secretKey = process.env.SECRET_KEY;
 const mongoURL = process.env.MONGO_URL;
-const otpLoginEmail = process.env.OTP_LOGIN_EMAIL ;
+const otpLoginEmail = process.env.OTP_LOGIN_EMAIL;
 const otpLoginpPassword = process.env.OTP_LOGIN_PASSWORD;
 
 mongoose.connect(mongoURL)
@@ -142,12 +142,12 @@ app.post('/api/sendOtp', async (req, res) => {
 
 app.post('/api/verify', async (req, res) => {
 
-    let {email,otp} = req.body;
-    const OTP =await Otp.findOne({'email':email,});
-    if(OTP.otp === otp){
+    let { email, otp } = req.body;
+    const OTP = await Otp.findOne({ 'email': email, });
+    if (OTP.otp === otp) {
         res.status(201).json({ status: "true" });
-    }else{
-        res.status(201).json({status:"false"});
+    } else {
+        res.status(201).json({ status: "false" });
     }
 
 })
@@ -155,31 +155,37 @@ app.post('/api/verify', async (req, res) => {
 //express code for image upload
 app.post('/api/uploadImage', (req, res) => {
 
-        const newImage = new Image({
-            username: req.body.username,
-            img: req.body.image,
-            prediction: req.body.prediction,
-            truth: req.body.selectedValue,
-        });
+    const newImage = new Image({
+        username: req.body.username,
+        img: req.body.image,
+        prediction: req.body.prediction,
+        truth: req.body.selectedValue,
+    });
 
-        newImage
-            .save()
-            .then(image => {
-                console.log('Image uploaded successfully');
-                res.json({ status:'success imgUp' });
-            })
-            .catch(err => {
-                console.log('Error imgUp');
-                res.status(500).json({ error: err.message });
-            });
-    }
+    newImage
+        .save()
+        .then(image => {
+            console.log('Image uploaded successfully');
+            res.json({ status: 'success imgUp' });
+        })
+        .catch(err => {
+            console.log('Error imgUp');
+            res.status(500).json({ error: err.message });
+        });
+}
 )
 
-app.post('/api/fetchImage',async(req,res)=>{
-    const images = await Image.find({});
-    console.log(images);
-    res.json({
-        images:images
-    })
+app.post('/api/fetchImage', async (req, res) => {
+    try {
+        const images = await Image.find({ username: req.body.username });
+        console.log(images);
+        if (!images) {
+            return res.status(404).json({ error: "No images found" });
+        }
+        res.status(200).json({ images });
+    } catch (err) {
+        console.log(errorMonitor);
+        res.status(500).json({ error: "Server Error" });
+    }
 })
 
